@@ -2,7 +2,7 @@ const canvas = document.createElement("canvas");
 const ctx = canvas.getContext("2d");
 
 const width = 700;
-const height = 400;
+const height = 600;
 
 canvas.width = width;
 canvas.height = height;
@@ -61,10 +61,10 @@ let brickW = 75;
 let brickH = 20;
 
 let cols = Math.floor(width / brickW);
-let padding=width/(cols-1)-brickW
-let rows = 16;
-let offsetX=1;
-let offsetY=1;
+let padding=width/(cols)-brickW
+let rows = 12;
+let offsetX=0;
+let offsetY=100;
 
 
 for (let j = 0; j < rows; j++) {
@@ -72,7 +72,7 @@ for (let j = 0; j < rows; j++) {
   for (let i = 0; i < cols; i++) {
 
     bricks.push(
-      new Brick((i * brickW)+padding , j * brickH, brickW, brickH, color)
+      new Brick((i * brickW)+i*padding+padding/2 , (j * brickH+j*padding+padding/2)+offsetY, brickW, brickH, color)
     );
   }
   if ((j+1) % 3 === 0) {
