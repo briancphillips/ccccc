@@ -28,6 +28,51 @@ class Brick {
     this.draw();
   }
 }
+
+class Ball {
+  constructor(x, y, r) {
+    this.x = x;
+    this.y = y;
+    this.r = r;
+    this.dx = -4;
+    this.dy = -4;
+  }
+
+  collides() {
+    // collisions with walls
+    if (this.x <= 0 || this.x + this.r >= width) {
+      this.dx *= -1;
+    }
+    if (this.y <= 0 /* || this.y + this.r >= height*/) {
+      this.dy *= -1;
+    }
+
+    //collisions with paddle
+
+    if (
+      this.x + this.r >= ship.x &&
+      this.x + this.r <= ship.x + ship.w &&
+      this.y + this.r >= ship.y &&
+      this.y+this.r<=ship.y+ship.h
+    ) {
+      this.dy *= -1;
+    }
+  }
+
+  draw() {
+    ctx.fillStyle = "white";
+    ctx.beginPath();
+    ctx.arc(this.x, this.y, this.r, 0, Math.PI * 2);
+    ctx.fill();
+  }
+
+  update() {
+    this.x += this.dx;
+    this.y += this.dy;
+    this.collides();
+    this.draw();
+  }
+}
 class Ship {
   constructor(x, y, w, h) {
     this.x = x;
@@ -51,9 +96,10 @@ class Ship {
 }
 
 let ship = new Ship(100, 100, 100, 20);
+let ball = new Ball(200, 450, 5);
 //let brick=new Brick(10,10,50,10,'rgba(0,0,255,1)');
 
-let colors = ["red", "purple", "orange", "blue"];
+let colors = ["red", "purple", "orange", "green"];
 let color = colors[0],
   colorIndex = 0;
 let bricks = [];
@@ -61,21 +107,25 @@ let brickW = 75;
 let brickH = 20;
 
 let cols = Math.floor(width / brickW);
-let padding=width/(cols)-brickW
+let padding = width / cols - brickW;
 let rows = 12;
-let offsetX=0;
-let offsetY=100;
-
+let offsetX = 0;
+let offsetY = 100;
 
 for (let j = 0; j < rows; j++) {
-  console.log(padding)
+  console.log(padding);
   for (let i = 0; i < cols; i++) {
-
     bricks.push(
-      new Brick((i * brickW)+i*padding+padding/2 , (j * brickH+j*padding+padding/2)+offsetY, brickW, brickH, color)
+      new Brick(
+        i * brickW + i * padding + padding / 2,
+        j * brickH + j * padding + padding / 2 + offsetY,
+        brickW,
+        brickH,
+        color
+      )
     );
   }
-  if ((j+1) % 3 === 0) {
+  if ((j + 1) % 3 === 0) {
     colorIndex++;
     color = colors[colorIndex];
   }
@@ -92,15 +142,20 @@ function update() {
   ctx.fillStyle = "rgba(0,0,0,100)";
   ctx.fillRect(0, 0, width, height);
   ship.update();
+
   bricks.forEach((brick) => {
     brick.update();
   });
-
+  ball.update();
   requestAnimationFrame(update);
 }
 
+// setInterval(() => {
+//   bricks.pop();
+// }, 5000);
+
 update();
-console.log(bricks.length)
+console.log(bricks.length);
 //setTimeout(()=>{bricks.splice(5,1);console.log(bricks.length)},5000)
 document.addEventListener("pointermove", (e) => {
   ship.x = e.clientX - bounds.left - ship.w / 2;
