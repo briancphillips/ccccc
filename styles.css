@@ -8,4 +8,9 @@ body {
     align-items:center;
     justify-content:center;
 }
+h1 {
+    position: fixed;
+    right:0;
+    top:0;
+}
 
