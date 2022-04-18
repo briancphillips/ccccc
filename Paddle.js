@@ -6,7 +6,7 @@ export default class Paddle {
     this.h = h;
   }
 
-  draw(ctx,width) {
+  draw(ctx, width) {
     let x = this.x + this.w - this.w * 0.25;
     let x2 = this.x + this.w * 0.25;
     let y = this.y;
@@ -25,11 +25,11 @@ export default class Paddle {
     ctx.lineTo(x2, y2);
     ctx.stroke();
   }
-  update(ctx,width) {
+  update(ctx, width) {
     if (this.x < 0) this.x = 0;
     if (this.x > width - this.w) this.x = width - this.w;
     //if (this.y < height - this.h) this.y = height - this.h;
     //if (this.y > height - this.h) this.y = height - this.h;
-    this.draw(ctx,width);
+    this.draw(ctx, width);
   }
 }

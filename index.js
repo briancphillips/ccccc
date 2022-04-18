@@ -23,39 +23,42 @@ let bricks;
 init();
 
 function init() {
-  paddle = new Paddle(50, height - 60, 100, 20);
+  paddle = new Paddle(285, height - 60, 100, 20);
   ball = new Ball(width - 200, 450, 5);
   let colors = ["red", "orange", "yellow", "green"];
   let color = colors[0],
     colorIndex = 0;
-  bricks = [];
-  let brickW = 75;
-  let brickH = 20;
 
-  let cols = Math.floor(width / brickW);
-  let padding = width / cols - brickW;
-  let rows = 8;
-  let offsetX = 0;
-  let offsetY = 100;
+  //if (!bricks || bricks.length==0) {
+    bricks = [];
+    let brickW = 75;
+    let brickH = 20;
 
-  for (let j = 0; j < rows; j++) {
-    //console.log(padding);
-    for (let i = 0; i < cols; i++) {
-      bricks.push(
-        new Brick(
-          i * brickW + i * padding + padding / 2,
-          j * brickH + j * padding + padding / 2 + offsetY,
-          brickW,
-          brickH,
-          color
-        )
-      );
+    let cols = Math.floor(width / brickW);
+    let padding = width / cols - brickW;
+    let rows = 8;
+    let offsetX = 0;
+    let offsetY = 100;
+
+    for (let j = 0; j < rows; j++) {
+      //console.log(padding);
+      for (let i = 0; i < cols; i++) {
+        bricks.push(
+          new Brick(
+            i * brickW + i * padding + padding / 2,
+            j * brickH + j * padding + padding / 2 + offsetY,
+            brickW,
+            brickH,
+            color
+          )
+        );
+      }
+      if ((j + 1) % 2 === 0) {
+        colorIndex++;
+        color = colors[colorIndex];
+      }
     }
-    if ((j + 1) % 2 === 0) {
-      colorIndex++;
-      color = colors[colorIndex];
-    }
-  }
+  //}
 }
 
 function update() {
@@ -63,12 +66,14 @@ function update() {
   ctx.fillStyle = "rgba(0,0,0,100)";
   ctx.fillRect(0, 0, width, height);
   paddle.update(ctx, width);
-
   bricks.forEach((brick) => {
     brick.update(ctx);
   });
-  ball.update(ctx, bricks, paddle, width,height);
+  ball.update(ctx, bricks, paddle, width, height);
+  //console.log(ball.x,ball.y,ball.vel.x,ball.vel.y)
+  console.log(paddle.moving)
   frame++;
+
   if (time - startTime > 1000) {
     document.querySelector("h1").innerHTML = (
       frame /
@@ -83,8 +88,9 @@ function update() {
 update();
 
 document.addEventListener("pointermove", (e) => {
-  paddle.x = e.clientX - bounds.left - paddle.w / 2;
+  paddle.x = e.clientX - bounds.left - paddle.w / 2;  
 });
+
 
 document.addEventListener("keydown", (e) => {
   if (e.key === "r") {
