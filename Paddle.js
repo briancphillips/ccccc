@@ -24,8 +24,11 @@ export default class Paddle {
     ctx.moveTo(x2, y);
     ctx.lineTo(x2, y2);
     ctx.stroke();
+    //debugging outlines
+    //ctx.strokeRect(this.x-20,this.y-20,this.w+40,this.h+20);
+    //ctx.strokeRect(this.x-2,this.y-2,this.w+4,this.h+4);
   }
-  update(ctx, width,dt,ball) {
+  update(ctx, width, dt, ball) {
     //if (this.x < 0) this.x = 0;
     //if (this.x > width - this.w) this.x = width - this.w;
     this.x=ball.x-this.w/2;
