@@ -29,9 +29,9 @@ export default class Paddle {
     //ctx.strokeRect(this.x-2,this.y-2,this.w+4,this.h+4);
   }
   update(ctx, width, dt, ball) {
-    //if (this.x < 0) this.x = 0;
-    //if (this.x > width - this.w) this.x = width - this.w;
-    this.x=ball.x-this.w/2;
+    if (this.x < 0) this.x = 0;
+    if (this.x > width - this.w) this.x = width - this.w;
+    //this.x=ball.x-this.w/2;
     //if (this.y < height - this.h) this.y = height - this.h;
     //if (this.y > height - this.h) this.y = height - this.h;
     //this.draw(ctx, width);

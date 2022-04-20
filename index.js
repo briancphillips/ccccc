@@ -17,13 +17,13 @@ document.body.appendChild(canvas);
 const timer = Timer(
   {
     update: () => {
-      update(1 / 640);
+      update(1 / 320);
     },
     render: () => {
       render();
     },
   },
-  1 / 640
+  1 / 320
 );
 //window.timer = timer;
 let bounds = canvas.getBoundingClientRect();
@@ -39,7 +39,7 @@ export function init() {
   timer.start();
 
   paddle = new Paddle(285, height - 60, 100, 20);
-  ball = new Ball(paddle.x + paddle.w / 2, paddle.y - 510, 5);
+  ball = new Ball(paddle.x + paddle.w / 2, paddle.y - 10, 5);
   window.ball = ball;
   //window.paddle=paddle;
   let colors = ["red", "orange", "yellow", "green"];
@@ -134,6 +134,16 @@ document.addEventListener("pointermove", (e) => {
   paddle.x = e.clientX - bounds.left - paddle.w / 2;
 });
 
+document.addEventListener("pointerdown", (e) => {
+  if(ball.vel.x === 0 && ball.vel.y === 0){
+    timer.stop();
+    timer.start();
+    //paddle.x=180
+    ball.vel = { x: -400, y: -400 };
+  }
+  
+});
+
 document.addEventListener("keydown", (e) => {
   if (e.key === "r") {
     console.clear();
@@ -146,7 +156,7 @@ document.addEventListener("keydown", (e) => {
     timer.stop();
     timer.start();
     //paddle.x=180
-    ball.vel = { x: -300, y: -300 };
+    ball.vel = { x: -400, y: -400 };
   }
 });
 
