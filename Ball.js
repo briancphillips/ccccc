@@ -5,7 +5,7 @@ export default class Ball {
     this.x = x;
     this.y = y;
     this.r = r;
-    this.vel = { x: -4, y: 4 };
+    this.vel = { x: -300, y: 300 };
     this.c = "white";
   }
 
@@ -28,12 +28,14 @@ export default class Ball {
         (subject.x + subject.r <= rect.x + rect.w * 0.25 && subject.vel.x > 0)
       )
         subject.vel.x *= -1;
+        //subject.vel.x*=1.01
       if (
         (subject.y + subject.r <= rect.y + rect.h ||
           subject.y + subject.r >= rect.y) &&
         subject.vel.y != 0
       ) {
         subject.vel.y *= -1;
+        //subject.vel.y*=1.01
       }
 
       return true;
@@ -47,10 +49,9 @@ export default class Ball {
     ctx.fill();
   }
 
-  update(ctx, bricks, paddle, width, height) {
-    this.x += this.vel.x;
-    this.y += this.vel.y;
-
+  update(ctx, bricks, paddle, width, height,dt) {
+    this.x += this.vel.x*dt;
+    this.y += this.vel.y*dt;
     bricks.forEach((brick, i) => {
       if (this.collides(this, brick)) {
         bricks.splice(i, 1);
@@ -58,6 +59,6 @@ export default class Ball {
     });
     this.collides(this, paddle, "wall", width, height);
 
-    this.draw(ctx);
+    //this.draw(ctx);
   }
 }

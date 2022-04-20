@@ -13,6 +13,6 @@ export default class Brick {
   }
 
   update(ctx) {
-    this.draw(ctx);
+    //this.draw(ctx);
   }
 }

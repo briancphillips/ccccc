@@ -25,11 +25,12 @@ export default class Paddle {
     ctx.lineTo(x2, y2);
     ctx.stroke();
   }
-  update(ctx, width) {
-    if (this.x < 0) this.x = 0;
-    if (this.x > width - this.w) this.x = width - this.w;
+  update(ctx, width,dt,ball) {
+    //if (this.x < 0) this.x = 0;
+    //if (this.x > width - this.w) this.x = width - this.w;
+    this.x=ball.x-this.w/2;
     //if (this.y < height - this.h) this.y = height - this.h;
     //if (this.y > height - this.h) this.y = height - this.h;
-    this.draw(ctx, width);
+    //this.draw(ctx, width);
   }
 }
