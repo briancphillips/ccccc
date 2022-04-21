@@ -17,7 +17,7 @@ document.body.appendChild(canvas);
 const timer = Timer(
   {
     update: () => {
-      update(1 / 320);
+      simulate(1/320);
     },
     render: () => {
       render();
@@ -25,19 +25,18 @@ const timer = Timer(
   },
   1 / 320
 );
-//window.timer = timer;
+
+window.timer = timer;
 let bounds = canvas.getBoundingClientRect();
-let fps = 0;
-let startTime = 0;
-let frame = 0;
 let paddle;
 let ball;
 let bricks;
+let last;
+let fps = document.querySelector("h1");
 init();
 
 export function init() {
-  timer.start();
-
+  timer.start();  
   paddle = new Paddle(285, height - 60, 100, 20);
   ball = new Ball(paddle.x + paddle.w / 2, paddle.y - 10, 5);
   window.ball = ball;
@@ -77,71 +76,52 @@ export function init() {
     }
   }
 }
+let frame=0,startTime=0;
+window.frame=frame;
+function tick() {
+  var time = Date.now();
+  frame++;
+  if (time - startTime > 1000) {
+      fps.innerHTML = (frame / ((time - startTime) / 1000)).toFixed(1);
+      startTime = time;
+      frame = 0;
+	}  
+}
+
+
 function render() {
+  
+  tick();  
+  //console.log("Drawing every " + step / 1000);
   bricks.forEach((brick) => {
     brick.draw(ctx);
   });
-  paddle.draw(ctx, width);
+  paddle.draw(ctx);
   ball.draw(ctx);
-  //console.log('in real update')
-  // let time = Date.now();
-  // ctx.fillStyle = "rgba(0,0,0,100)";
-  // ctx.fillRect(0, 0, width, height);
-  // paddle.update(ctx, width);
-  // bricks.forEach((brick) => {
-  //   brick.update(ctx);
-  // });
-  // ball.update(ctx, bricks, paddle, width, height);
-  //console.log(ball.x,ball.y,ball.vel.x,ball.vel.y)
-  //console.log(timer);
-  // frame++;
-
-  // if (time - startTime > 1000) {
-  //   document.querySelector("h1").innerHTML = (
-  //     frame /
-  //     ((time - startTime) / 1000)
-  //   ).toFixed(1);
-  //   startTime = time;
-  //   frame = 0;
-  // }
-  //requestAnimationFrame(update);
 }
-function update(dt) {
-  //console.log(dt)
-  //let time = Date.now();
+function simulate(dt) {
+  //console.log("Simulating every " + dt / 1000);  
   ctx.fillStyle = "rgba(0,0,0,100)";
   ctx.fillRect(0, 0, width, height);
-  paddle.update(ctx, width, dt, ball);
+
+  paddle.update(width);
   ball.update(bricks, paddle, width, height, dt);
-  //console.log(ball.x,ball.y,ball.vel.x,ball.vel.y)
-  //console.log(timer);
-  // frame++;
-
-  // if (time - startTime > 1000) {
-  //   document.querySelector("h1").innerHTML = (
-  //     frame /
-  //     ((time - startTime) / 1000)
-  //   ).toFixed(1);
-  //   startTime = time;
-  //   frame = 0;
-  // }
-  //requestAnimationFrame(update);
 }
-
-//update();
 
 document.addEventListener("pointermove", (e) => {
   paddle.x = e.clientX - bounds.left - paddle.w / 2;
 });
 
 document.addEventListener("pointerdown", (e) => {
-  if(ball.vel.x === 0 && ball.vel.y === 0){
+  if (ball.vel.x === 0 && ball.vel.y === 0) {
     timer.stop();
     timer.start();
-    //paddle.x=180
-    ball.vel = { x: -400, y: -400 };
+
+    ball.vel = {
+      x: 80 * (Math.random() > 0.5 ? 1 : -1),
+      y: -80 * (Math.random() * 0.8 + 1),
+    };
   }
-  
 });
 
 document.addEventListener("keydown", (e) => {
@@ -155,8 +135,11 @@ document.addEventListener("keydown", (e) => {
   if (e.key === " " && ball.vel.x === 0 && ball.vel.y === 0) {
     timer.stop();
     timer.start();
-    //paddle.x=180
-    ball.vel = { x: -400, y: -400 };
+
+    ball.vel = {
+      x: 80 * (Math.random() > 0.5 ? 1 : -1),
+      y: -80 * (Math.random() * 0.8 + 1),
+    };
   }
 });
 

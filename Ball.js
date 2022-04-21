@@ -1,5 +1,6 @@
 import { intersect } from "./math.js";
 import { init } from "./index.js";
+import { Timer } from "./Timer.js";
 export default class Ball {
   constructor(x, y, r) {
     this.x = x;
@@ -29,7 +30,6 @@ export default class Ball {
         }
       }
       if (rect.constructor.name == "Brick") {
-        //if(subject.x<=rect.x+subject.r*2 || subject.x>=rect.x+rect.w-subject.r*2) subject.vel.x*=-1;
         console.log("hitting brick");
         if (
           subject.y + subject.r >= rect.y ||
@@ -47,27 +47,6 @@ export default class Ball {
         }
       }
     }
-
-    //collisions with bricks and paddle
-    // if (intersect(subject, rect)) {
-    //   if (
-    //     (subject.x + subject.r >= rect.x + rect.w - rect.w * 0.25 &&
-    //       subject.vel.x < 0) ||
-    //     (subject.x + subject.r <= rect.x + rect.w * 0.25 && subject.vel.x > 0)
-    //   )
-    //     subject.vel.x *= -1;
-    //     //subject.vel.x*=1.01
-    //   if (
-    //     (subject.y + subject.r <= rect.y + rect.h ||
-    //       subject.y + subject.r >= rect.y) &&
-    //     subject.vel.y != 0
-    //   ) {
-    //     subject.vel.y *= -1;
-    //     //subject.vel.y*=1.01
-    //   }
-
-    //   return true;
-    // }
   }
 
   draw(ctx) {
@@ -89,8 +68,8 @@ export default class Ball {
       this.vel.y *= -1;
       //this.vel.y*=1.1;
     }
-    if (this.y + this.r >= height + 100) {
-      console.log(ball)
+    if (this.y + this.r >= height + 100) {      
+      //console.log(this.vel)      
       init();
     }
 

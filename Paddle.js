@@ -6,7 +6,7 @@ export default class Paddle {
     this.h = h;
   }
 
-  draw(ctx, width) {
+  draw(ctx) {
     let x = this.x + this.w - this.w * 0.25;
     let x2 = this.x + this.w * 0.25;
     let y = this.y;
@@ -28,12 +28,12 @@ export default class Paddle {
     //ctx.strokeRect(this.x-20,this.y-20,this.w+40,this.h+20);
     //ctx.strokeRect(this.x-2,this.y-2,this.w+4,this.h+4);
   }
-  update(ctx, width, dt, ball) {
+  update(width) {
     if (this.x < 0) this.x = 0;
     if (this.x > width - this.w) this.x = width - this.w;
     //this.x=ball.x-this.w/2;
     //if (this.y < height - this.h) this.y = height - this.h;
     //if (this.y > height - this.h) this.y = height - this.h;
-    //this.draw(ctx, width);
+    //this.draw(ctx);
   }
 }

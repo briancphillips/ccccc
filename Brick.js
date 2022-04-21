@@ -11,8 +11,5 @@ export default class Brick {
     ctx.fillStyle = this.c;
     ctx.fillRect(this.x, this.y, this.w, this.h);
   }
-
-  update(ctx) {
-    //this.draw(ctx);
-  }
+  
 }
