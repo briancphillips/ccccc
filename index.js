@@ -17,7 +17,7 @@ document.body.appendChild(canvas);
 const timer = Timer(
   {
     update: () => {
-      simulate(1/320);
+      simulate(1 / 60);
     },
     render: () => {
       render();
@@ -25,18 +25,16 @@ const timer = Timer(
   },
   1 / 320
 );
-
+timer.start();
 window.timer = timer;
 let bounds = canvas.getBoundingClientRect();
 let paddle;
 let ball;
 let bricks;
 let last;
-let fps = document.querySelector("h1");
 init();
 
-export function init() {
-  timer.start();  
+export function init() {  
   paddle = new Paddle(285, height - 60, 100, 20);
   ball = new Ball(paddle.x + paddle.w / 2, paddle.y - 10, 5);
   window.ball = ball;
@@ -76,22 +74,22 @@ export function init() {
     }
   }
 }
-let frame=0,startTime=0;
-window.frame=frame;
-function tick() {
-  var time = Date.now();
-  frame++;
-  if (time - startTime > 1000) {
-      fps.innerHTML = (frame / ((time - startTime) / 1000)).toFixed(1);
-      startTime = time;
-      frame = 0;
-	}  
-}
 
+let lastTime = Date.now(),
+  frames = 0;
+  let lastTime2 = Date.now(),
+  frames2 = 0;
 
 function render() {
-  
-  tick();  
+  const now = Date.now();
+  frames++;
+  if (now > lastTime + 1000) {
+    let fps = Math.round((frames * 1000) / (now - lastTime));
+    document.querySelector('.fps1').innerHTML=`Drawing FPS: ${fps}`;
+    lastTime = now;
+    frames = 0;
+
+  }
   //console.log("Drawing every " + step / 1000);
   bricks.forEach((brick) => {
     brick.draw(ctx);
@@ -100,7 +98,16 @@ function render() {
   ball.draw(ctx);
 }
 function simulate(dt) {
-  //console.log("Simulating every " + dt / 1000);  
+  //console.log("Simulating every " + dt / 1000);
+  const now2 = Date.now();
+  frames2++;
+  if (now2 > lastTime2 + 1000) {
+    let fps2 = Math.round((frames2 * 1000) / (now2 - lastTime2));
+    document.querySelector('.fps2').innerHTML=`Simulating FPS: ${fps2}`;
+    lastTime2 = now2;
+    frames2 = 0;
+  }
+  
   ctx.fillStyle = "rgba(0,0,0,100)";
   ctx.fillRect(0, 0, width, height);
 
@@ -114,8 +121,7 @@ document.addEventListener("pointermove", (e) => {
 
 document.addEventListener("pointerdown", (e) => {
   if (ball.vel.x === 0 && ball.vel.y === 0) {
-    timer.stop();
-    timer.start();
+
 
     ball.vel = {
       x: 80 * (Math.random() > 0.5 ? 1 : -1),
@@ -133,8 +139,7 @@ document.addEventListener("keydown", (e) => {
     init();
   }
   if (e.key === " " && ball.vel.x === 0 && ball.vel.y === 0) {
-    timer.stop();
-    timer.start();
+   
 
     ball.vel = {
       x: 80 * (Math.random() > 0.5 ? 1 : -1),

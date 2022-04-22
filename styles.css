@@ -8,9 +8,15 @@ body {
     align-items:center;
     justify-content:center;
 }
-h1 {
-    position: fixed;
-    right:0;
+.fps1 {
+    position: absolute;
     top:0;
+    right:0;
+    display: inline-block;
 }
-
+.fps2 {
+    position: absolute;
+    top:10;
+    right:0;
+    display: inline-block;
+}

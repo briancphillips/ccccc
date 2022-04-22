@@ -1,6 +1,6 @@
 import { intersect } from "./math.js";
 import { init } from "./index.js";
-import { Timer } from "./Timer.js";
+//import { Timer } from "./Timer.js";
 export default class Ball {
   constructor(x, y, r) {
     this.x = x;
@@ -69,7 +69,7 @@ export default class Ball {
       //this.vel.y*=1.1;
     }
     if (this.y + this.r >= height + 100) {      
-      //console.log(this.vel)      
+      //console.log(this.vel) 
       init();
     }
 
